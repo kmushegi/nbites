@@ -64,6 +64,9 @@ void LocalizationModule::update()
     // Update the locMessage and the swarm (if logging)
     portals::Message<messages::RobotLocation> locMessage(&particleFilter->
                                                          getCurrentEstimate());
+//this is part of something old that never executes, check out
+//the ifdef below; same code but it is executed when we want to
+//to log localization
 #if defined(LOG_LOCALIZATION) || defined(OFFLINE)
     portals::Message<messages::ParticleSwarm> swarmMessage(&particleFilter->
                                                            getCurrentSwarm());

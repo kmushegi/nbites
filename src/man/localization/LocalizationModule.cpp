@@ -70,7 +70,6 @@ void LocalizationModule::update()
 #if defined(LOG_LOCALIZATION) || defined(OFFLINE)
     portals::Message<messages::ParticleSwarm> swarmMessage(&particleFilter->
                                                            getCurrentSwarm());
-    std::cout<<"SETTING SWARM MESSAGE"<<std::endl;
     particleOutput.setMessage(swarmMessage);
 #endif
 
@@ -95,12 +94,6 @@ void LocalizationModule::update()
         rl.SerializeToString(&rl_buf);
         ps.SerializeToString(&ps_buf);
 
-        if(ps_buf.empty()) {
-            std::cout<<"PS EMPTY"<<std::endl;
-        } else {
-            std::cout<<"PS FULL"<<std::endl;
-        }
-
         log_buf.append(rl_buf);
         log_buf.append(ps_buf);
 
@@ -111,9 +104,6 @@ void LocalizationModule::update()
         contents.push_back(naoLocation);
 
         SExpr naoSwarm("swarm",log_from,clock(),log_index,ps_buf.length());
-
-        std::cout<<"[DEBUG] SWARM"<<std::endl;
-        std::cout<<naoSwarm.print()<<std::endl;
 
         contents.push_back(naoSwarm);
         NBLog(NBL_SMALL_BUFFER,"LOCSWARM",contents,log_buf);

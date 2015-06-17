@@ -32,7 +32,6 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 
 		RobotLocation naoLoc;
 		ParticleSwarm naoSwarm;
-
 		float naoX, naoY, naoH;
 
 		try {
@@ -40,7 +39,6 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 			naoX = naoLoc.getX();
 			naoY = naoLoc.getY();
 			naoH = naoLoc.getH();
-			System.out.println("[PROTO] H: "+naoH);
 			dPane.naoPlayer.moveTo(naoX,naoY, naoH);
 
 			naoSwarm = ParticleSwarm.parseFrom(log.bytesForContentItem(1));

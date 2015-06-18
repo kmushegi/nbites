@@ -68,6 +68,7 @@ public class GeoLine {
 	}
 
 	public void draw(Graphics2D g2) {
+		//TODO: FLIP SUPPORT
 		float lineWidth = 5.0f;
 		g2.setStroke(new BasicStroke(lineWidth/2));
 

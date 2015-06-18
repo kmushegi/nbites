@@ -9,6 +9,7 @@ package nbtool.gui.logviews.loc;
 	import java.io.ByteArrayInputStream;
 	import java.io.IOException;
 	import java.io.InputStream;
+	import java.util.Vector;
 
 	import com.google.protobuf.Message;
 
@@ -23,13 +24,9 @@ package nbtool.gui.logviews.loc;
 
 public class LocSwarmView extends ViewParent implements ActionListener {
 
-    private int numLines;
-
 	@Override
 	public void setLog(Log newlog) {
 		log = newlog;
-		naoParticles = initParticles(naoParticles);
-		naoLines = initLines(naoLines);
 
 		RobotLocation naoLoc;
 		ParticleSwarm naoSwarm;
@@ -48,19 +45,22 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 			for(int i=0; i<naoSwarm.getParticleCount(); i++) {
 				RobotLocation currentNaoSwarm = naoSwarm.getParticle(i).getLoc();
 				pWeight = naoSwarm.getParticle(i).getWeight();
-				naoParticles[i].moveTo(currentNaoSwarm.getX(),currentNaoSwarm.getY());
+				NaoParticle temp = new NaoParticle();
+				naoParticles.add(temp);
+				temp.moveTo(currentNaoSwarm.getX(),currentNaoSwarm.getY());
 			}
-
+			
 			naoFieldLines = FieldLines.parseFrom(log.bytesForContentItem(2));
-            numLines = naoFieldLines.getLineCount();
 			for(int i=0; i<naoFieldLines.getLineCount(); i++) {
 				FieldLine curFieldLine = naoFieldLines.getLine(i);
-				naoLines[i].r = curFieldLine.getInner().getR();
-				naoLines[i].t = curFieldLine.getInner().getT();
-				naoLines[i].end0 = curFieldLine.getInner().getEp0();
-				naoLines[i].end1 = curFieldLine.getInner().getEp1();
-				naoLines[i].houghIndex = 0.0;
-				naoLines[i].fieldIndex = 0.0;
+				GeoLine temp = new GeoLine(
+								curFieldLine.getInner().getR(),
+								curFieldLine.getInner().getT(),
+								curFieldLine.getInner().getEp0(),
+								curFieldLine.getInner().getEp1(),
+								0.0,
+								0.0);
+				naoLines.add(temp);
 			}
             /* numLines = 1; */
 			/* for(int i=0; i<1; i++) { */
@@ -84,20 +84,6 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 		flip.addActionListener(this);
 		flip.setPreferredSize(new Dimension(70,25));
 		this.add(flip);
-
-		//this.add(f);
-
-		sp = new JScrollPane();
-		sp.setBounds(0,0,800,600);
-		sp.setVisible(true);
-		sp.setViewportView(f);
-
-		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-		//sp.getViewport().add(f);
-
-		//this.add(sp);
 	}
 
 	protected void useSize(Dimension s) {
@@ -120,8 +106,8 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 
 	Field f = new Field();
 	NaoRobot naoPlayer = new NaoRobot();
-	NaoParticle naoParticles[] = new NaoParticle[300];
-	GeoLine naoLines[] = new GeoLine[100];
+	Vector<NaoParticle> naoParticles = new Vector<NaoParticle>();
+	Vector<GeoLine> naoLines = new Vector<GeoLine>();
 	private JButton flip;
 	private JScrollPane sp;
 	public static float pWeight;
@@ -135,24 +121,15 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 		Graphics2D g2 = (Graphics2D) g;
 		f.drawField(g2);
 		naoPlayer.drawNao(g2,shouldFlip);
-		for(int i=0; i<naoParticles.length; i++) {
-			naoParticles[i].drawParticle(g2,pWeight,shouldFlip);
+		if(!naoParticles.isEmpty()) {
+			for(int i=0; i<naoParticles.size(); i++) {
+				naoParticles.get(i).drawParticle(g2,pWeight,shouldFlip);
+			}
 		}
-		for(int i=0; i<numLines; i++) {
-			naoLines[i].draw(g2);
+		if(!naoLines.isEmpty()) {
+			for(int i=0; i<naoLines.size(); i++) {
+				naoLines.get(i).draw(g2);
+			}
 		}
-	}
-
-	public NaoParticle[] initParticles(NaoParticle[] p) {
-		for(int i=0; i<p.length; i++) {
-			p[i] = new NaoParticle();
-		}
-		return p;
-	}
-	public GeoLine[] initLines(GeoLine[] g) {
-		for(int i=0; i<g.length; i++) {
-			g[i] = new GeoLine();
-		}
-		return g;
 	}
 }

@@ -59,18 +59,19 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 								curFieldLine.getInner().getEp0(),
 								curFieldLine.getInner().getEp1(),
 								0.0,
-								0.0);
+								0.0,
+								curFieldLine.getId());
 				naoLines.add(temp);
 			}
-            /* numLines = 1; */
-			/* for(int i=0; i<1; i++) { */
-			/* 	naoLines[i].r = FieldConstants.CENTER_FIELD_X; */
-			/* 	naoLines[i].t = 0; */
-			/* 	naoLines[i].end0 = 100; */
-			/* 	naoLines[i].end1 = 200; */
-			/* 	naoLines[i].houghIndex = 0.0; */
-			/* 	naoLines[i].fieldIndex = 0.0; */
-			/* } */
+			// GeoLine temp = new GeoLine(
+			// 				FieldConstants.CENTER_FIELD_X,
+			// 				0,
+			// 				100,
+			// 				200,
+			// 				0.0,
+			// 				0.0,
+			// 				1);
+			// naoLines.add(temp);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -128,7 +129,7 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 		}
 		if(!naoLines.isEmpty()) {
 			for(int i=0; i<naoLines.size(); i++) {
-				naoLines.get(i).draw(g2);
+				naoLines.get(i).draw(g2, shouldFlip);
 			}
 		}
 	}

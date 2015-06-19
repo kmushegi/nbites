@@ -46,8 +46,8 @@ public class LocSwarmView extends ViewParent implements ActionListener {
 				RobotLocation currentNaoSwarm = naoSwarm.getParticle(i).getLoc();
 				pWeight = naoSwarm.getParticle(i).getWeight();
 				NaoParticle temp = new NaoParticle();
-				naoParticles.add(temp);
 				temp.moveTo(currentNaoSwarm.getX(),currentNaoSwarm.getY());
+				naoParticles.add(temp);
 			}
 			
 			naoFieldLines = FieldLines.parseFrom(log.bytesForContentItem(2));

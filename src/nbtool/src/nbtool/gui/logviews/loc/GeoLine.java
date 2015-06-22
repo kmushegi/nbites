@@ -103,6 +103,9 @@ public class GeoLine {
         int x2 = temp[2].intValue();
         int y2 = temp[3].intValue();
 
+        double xstring = (x1 + x2) / 2;
+        double ystring = (y1 + y2) / 2;
+
         if(shouldFlip) {
 
 		} else {
@@ -111,6 +114,9 @@ public class GeoLine {
 
         g2.drawLine(x1,(int)FieldConstants.FIELD_HEIGHT-y1,x2,
         			     (int)FieldConstants.FIELD_HEIGHT-y2);
+        g2.drawString(Integer.toString((int) houghIndex) + "/"
+        					+ Integer.toString((int) fieldIndex),
+        					(int) xstring, (int) ystring);
 	}
 
 	public Double[] endPoints(Double[] epoints) {
@@ -122,7 +128,6 @@ public class GeoLine {
 		epoints[3] = y0+end1*ux;
 		return epoints;
 	}
-
 	/*
 	public void translateRotate(double xTrans, double yTrans, double rotation) {
 		Double ep[] = new Double[4];

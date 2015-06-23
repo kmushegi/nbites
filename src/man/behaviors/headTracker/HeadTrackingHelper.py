@@ -290,13 +290,13 @@ class HeadTrackingHelper(object):
 
         command.timestamp = int(self.tracker.brain.time * 1000)
 
-    def bounceTrackball(self):
+    def bounceTrackBall(self):
         """
         Repeat a dynamic pan around the ball. Should keep the ball
         in sight at all times, but we need careful escape clauses.
         """
         ball = self.tracker.brain.ball
-        self.executeHeadMove(self.convertKickPan(HeadMoves.BALLTRACK_PAN(ball.distance, ball.bearing)))
+        self.executeHeadMove(self.convertKickPan(HeadMoves.BALLTRACK_PAN(ball.distance, ball.bearing), True))
 
     def printHeadAngles(self):
         print "Current yaw is: " + str(degrees(self.tracker.brain.interface.joints.head_yaw))

@@ -410,7 +410,7 @@ FIXED_PITCH_PAN_NARROW_FAST = (
 def BALLTRACK_PAN(dist, bear):
     #Note: Camera sees 60 degrees
     #      Want to keep the ball within 40 (+/- 20)
-    deg_per_sec = 30.0
+    deg_per_sec = 15.0
 
     # stay looking forward so pan from -45 to 45
     max_left =   45.0
@@ -423,7 +423,8 @@ def BALLTRACK_PAN(dist, bear):
     left_side_final  = min(max_left, left_see_ball_max)
     right_side_final = max(max_right, right_see_ball_max)
 
-    pan_time = (left_side_final + right_side_final) / deg_per_sec
+    #pan_time = (left_side_final + right_side_final) / deg_per_sec
+    pan_time = 1
 
     return ( ((left_side_final, 25.0), pan_time, 1, stiff.LOW_HEAD_STIFFNESSES),
              ((right_side_final,25.0), pan_time, 1, stiff.LOW_HEAD_STIFFNESSES))

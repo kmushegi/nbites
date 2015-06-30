@@ -1114,11 +1114,26 @@ LEFT_STRAIGHT_KICK = (
      (80.,-30.,50.,74.),
      .7,0, stiff.NORMAL_STIFFNESSES),
 
+    #stand for a bit
     ((90.,10.,-90.,-10.),
      (0.0,0.0,-22.3,43.5,-21.2, 0.0),
      (0.0,0.0,-22.3,43.5,-21.2, 0.0),
      (90.,-10.,82.,13.2),
-     .7,0,stiff.NORMAL_STIFFNESSES)
+     1,0,stiff.NORMAL_STIFFNESSES),
+
+    # put arms back 
+    ((99.2, 1.4, 74.5, -21.3),
+     (0.0, 0.0, -20.63, 51.57, -30.94, 0.0), 
+     (0.0, 0.0, -20.63, 51.57, -30.94, 0.0), 
+     (98.5, -0.2, -74.7, 22.1),
+     1,0,stiff.NORMAL_STIFFNESSES),
+
+    # arms back position
+    ((99.69, 9.97, 75.06, -20.05), 
+     (0.0, 0.0, -20.63, 51.57, -30.94, 0.0), 
+     (0.0, 0.0, -20.63, 51.57, -30.94, 0.0), 
+     (99.69, -9.97, -75.06, 20.05),
+     1,0,stiff.NORMAL_STIFFNESSES),
     )
 
 RIGHT_STRAIGHT_KICK = mirrorMove(LEFT_STRAIGHT_KICK)

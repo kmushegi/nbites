@@ -51,18 +51,19 @@ def getMoveTime(move):
 
 OFF = None #OFF means the joint chain doesnt get enqueued during this motion
 
-INITIAL_POS = (((90., 10.0, -90., -10.),
-                (0.0,  0.0,  -22.3, 43.5, -21.2, 0.0),
-                (0.0,  0.0,  -22.3, 43.5, -21.2, 0.0),
-                (90.0,-10., 82, 13.2),
+INITIAL_POS = (((99.69, 9.97, 75.06, -20.05), 
+                (0.0, 0.0, -20.63, 51.57, -30.94, 0.0),
+                (0.0, 0.0, -20.63, 51.57, -30.94, 0.0),
+                (99.69, -9.97, -75.06, 20.05),
                 3.0,0,stiff.LOOSE_ARMS_STIFFNESSES),)
 
+
 #Keyframe that moves can called from an unbalanced position to slowly return the joints to a stable, standing position.
-INITIAL_POS_KEYFRAME = ((90.,10.,-90.,-10.),
-			(0.0,0.0,-22.3,43.5,-21.2, 0.0),
-			(0.0,0.0,-22.3,43.5,-21.2, 0.0),
-			(90.,-10.,82.,13.2),
-			2,0,stiff.NORMAL_STIFFNESSES)
+INITIAL_POS_KEYFRAME = ((99.69, 9.97, 75.06, -20.05), 
+                        (0.0, 0.0, -20.63, 51.57, -30.94, 0.0),
+                        (0.0, 0.0, -20.63, 51.57, -30.94, 0.0),
+                        (99.69, -9.97, -75.06, 20.05),
+			                  2,0,stiff.NORMAL_STIFFNESSES)
 
 BRING_ARMS_FORWARD = ((105.,10.,15.,-11.6),
       (0.0,0.0,-22.3,43.5,-21.2, 0.0),

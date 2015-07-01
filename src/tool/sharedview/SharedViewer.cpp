@@ -199,6 +199,7 @@ void SharedViewer::run_()
         worldMessage.get()->set_my_y(yCoord[i]);
         worldMessage.get()->set_my_h(heading[i]);
         worldMessage.get()->set_ball_dist(ballDistance[i]);
+        worldMessage.get()->set_active(true);
         worldsOut[i]->setMessage(worldMessage);
 
         fieldPainter->updateWithLocationInfo(xCoord[i], yCoord[i],

@@ -128,7 +128,7 @@ RIGHT_SHORT_SIDE_KICK = Kick("R_Short_Side", x = 15.5, y = .5,
                              h = -90,
                              move=SweetMoves.RIGHT_SHORT_SIDE_KICK)
 
-# Not used 05-02-14
+
 LEFT_STRAIGHT_KICK =  Kick("L_Straight", x = 14.0, y = 3.8,
                            move=SweetMoves.LEFT_STRAIGHT_KICK)
 RIGHT_STRAIGHT_KICK = Kick("R_Straight", x = 14.0, y = -3.8,

@@ -1295,10 +1295,10 @@ LEFT_SHORT_STRAIGHT_KICK = (
      1,0,stiff.NORMAL_STIFFNESSES),
 
     # arms back position
-    ((98.9, 9.0, 74.8, -19.2),
-     (-0.3, 0.7, -22.5, 44.0, -22.1, -0.5),
-     (-0.3, -0.7, -23.0, 42.8, -21.2, -0.3),
-     (98.8, -9.2, -74.6, 19.0),
+   (INITIAL_POS[0][0],
+    INITIAL_POS[0][1],
+    INITIAL_POS[0][2],
+    INITIAL_POS[0][3],
      1,0,stiff.NORMAL_STIFFNESSES),
 
     )

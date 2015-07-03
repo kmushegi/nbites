@@ -96,6 +96,18 @@ def watchForBall(player):
 
 @superState('playOffBall')
 @stay
+@ifSwitchNow(transitions.ballInBox,'approachBall')
+def localizeAndPlay(player):
+    """
+    The player is lost, observes surroundings to relocalize and keeps playing
+    """
+    if(not player.brain.ball.vis.on): #or while we cant see ball
+        if player.firstFrame():
+            player.setWalk(0,0,chaseConstants.FIND_BALL_SPIN_SPEED)
+            player.brain.tracker.spinPan()
+
+@superState('playOffBall')
+@stay
 @ifSwitchLater(shared.ballOffForNFrames(120), 'playOffBall')
 def positionAsSupporter(player):
     if (role.isChaser(player.role) and role.isChaser(player.roleOfClaimer) and 

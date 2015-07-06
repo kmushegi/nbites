@@ -11,6 +11,7 @@ from objects import Location, RobotLocation
 from ..util import *
 from math import hypot, fabs, atan2, degrees
 import random
+import time
 
 @defaultState('branchOnRole')
 @superState('gameControllerResponder')
@@ -32,7 +33,7 @@ def branchOnRole(player):
         if transitions.shouldFindSharedBall(player):
             return player.goNow('searchFieldForSharedBall')
         return player.goNow('positionAtHome')
-    return player.goNow('positionAtHome')
+    return player.goNow('localizeAndPlay')
 
 @superState('playOffBall')
 @stay
@@ -94,17 +95,35 @@ def watchForBall(player):
     if transitions.tooFarFromHome(20, player):
         return player.goNow('positionAtHome')
 
+@defaultState('doHeadPan')
 @superState('playOffBall')
 @stay
 @ifSwitchNow(transitions.ballInBox,'approachBall')
 def localizeAndPlay(player):
     """
-    The player is lost, observes surroundings to relocalize and keeps playing
+    The player is lost: observe surroundings, relocalize and play
     """
-    if(not player.brain.ball.vis.on): #or while we cant see ball
-        if player.firstFrame():
+    pass
+
+@superState('localizeAndPlay')
+def doHeadPan(player):
+    print "[DEBUG] Got Into HeadPan"
+    if not player.claimedBall:
+        player.brain.tracker.performWidePan()
+        return player.goNow('doSpin')
+    else:
+        return player.goNow('approachBall')
+    return player.goLater('playOffBall')
+
+@superState('localizeAndPlay')
+def doSpin(player):
+    print "[DEBUG] Got Into Spin"
+    if player.firstFrame():
+        if not player.claimedBall:
             player.setWalk(0,0,chaseConstants.FIND_BALL_SPIN_SPEED)
-            player.brain.tracker.spinPan()
+        else:
+            return player.goNow('approachBall')
+    return player.goLater('playOffBall')
 
 @superState('playOffBall')
 @stay

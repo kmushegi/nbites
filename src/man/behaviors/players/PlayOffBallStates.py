@@ -9,7 +9,7 @@ import noggin_constants as NogginConstants
 from ..navigator import Navigator as nav
 from objects import Location, RobotLocation
 from ..util import *
-from math import hypot, fabs, atan2, degrees
+from math import hypot, fabs, atan2, degrees, cos, sin
 import random
 import time
 
@@ -33,6 +33,13 @@ def branchOnRole(player):
         if transitions.shouldFindSharedBall(player):
             return player.goNow('searchFieldForSharedBall')
         return player.goNow('positionAtHome')
+    '''
+    if player.brain.lost:
+        print "[DEBUG] We Are Lost"
+        return player.goNow('localizeAndPlay')
+    else:
+        return player.goNow('positionAtHome')
+    '''
     return player.goNow('localizeAndPlay')
 
 @superState('playOffBall')
@@ -107,10 +114,16 @@ def localizeAndPlay(player):
 
 @superState('localizeAndPlay')
 def doHeadPan(player):
-    print "[DEBUG] Got Into HeadPan"
     if not player.claimedBall:
         player.brain.tracker.performWidePan()
-        return player.goNow('doSpin')
+        if player.brain.ball.vis.on:
+            player.goNow('approachBall')
+        startTime = time.time()
+        executeTime = startTime + 4.0
+        while True:
+            if fabs(executeTime-time.time()) < 0.001:
+                return player.goNow('doSpin')
+                break
     else:
         return player.goNow('approachBall')
     return player.goLater('playOffBall')
@@ -120,10 +133,28 @@ def doSpin(player):
     print "[DEBUG] Got Into Spin"
     if player.firstFrame():
         if not player.claimedBall:
+            player.brain.tracker.lookStraight()
             player.setWalk(0,0,chaseConstants.FIND_BALL_SPIN_SPEED)
         else:
             return player.goNow('approachBall')
-    return player.goLater('playOffBall')
+
+    if player.brain.ball.vis.on:
+        player.goNow('approachBall')
+    elif player.brain.visionLines.line_size() > 1:
+        print "[DEBUG] I see Lines"
+        for i in range(0, player.brain.visionLines.line_size()):
+            if (player.brain.visionLines.line(i).id == 5 or player.brain.visionLines.line(i).id == 6):
+                lineX = player.brain.visionLines.line(i).inner.r*cos(player.brain.visionLines.line(i).inner.t)
+                lineY = player.brain.visionLines.line(i).inner.r*sin(player.brain.visionLines.line(i).inner.t)
+                print "[DEBUG] Found GB Line"
+                #player.brain.tracker.lookToXY(lineX,lineY)
+                player.stand()
+                return player.goLater('playOffBall')
+            else:
+                print "[DEBUG] Not the Lines You're Looking For"
+                return player.stay()
+    else:
+        return player.goLater('playOffBall')
 
 @superState('playOffBall')
 @stay

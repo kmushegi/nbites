@@ -91,6 +91,7 @@ def positionAtHome(player):
 
 @superState('playOffBall')
 @stay
+@ifSwitchLater(transitions.shouldSpinSearchFromWatching, 'spinSearch')
 def watchForBall(player):
     """
     The player is at home, waiting for the ball to be within it's box (range)
@@ -99,8 +100,8 @@ def watchForBall(player):
         player.brain.tracker.trackBall()
         player.brain.nav.stand()
 
-    if transitions.tooFarFromHome(20, player):
-        return player.goNow('positionAtHome')
+    if transitions.tooFarFromHome(50, player):
+        return player.goLater('positionAtHome')
 
 @defaultState('doHeadPan')
 @superState('playOffBall')

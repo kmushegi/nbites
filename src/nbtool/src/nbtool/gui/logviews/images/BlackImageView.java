@@ -139,7 +139,12 @@ public class BlackImageView extends ViewParent implements MouseListener, MouseMo
 		if(drawing_circle) {
 			double ball_width = e.getX() - current_ball.getX();
 			double ball_height = e.getY() - current_ball.getY();
-			current_ball = new Ellipse2D.Double(current_ball.getX(), current_ball.getY(), ball_width, ball_height);
+			if(ball_width < 0 && ball_height < 0) {
+				current_ball = new Ellipse2D.Double(e.getX()-5,e.getY()-5,ball_width*-1+5,ball_height*-1+5);
+			} else {
+				current_ball = new Ellipse2D.Double(current_ball.getX(), current_ball.getY(), ball_width, ball_height);
+			}
+			
 			ball_list.add(current_ball);
 			current_ball = null;
 			drawing_circle = false;
@@ -149,14 +154,22 @@ public class BlackImageView extends ViewParent implements MouseListener, MouseMo
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == save && log != null) {
+			SExpr current_tree = log.tree();
+			SExpr ball_header = SExpr.newList();
+			ball_header.append(SExpr.newKeyValue("type","ball"));
+			ball_header.append(SExpr.newKeyValue("size",ball_list.size()));
+
+			SExpr ith_ball_info = SExpr.newList();
 			for(Ellipse2D ball : ball_list) {
-				SExpr s = ball_info_to_sexpr(ball);
-				if(s == null || s.count() < 1) {
-					System.out.println("error");
-				} else {
-					//log.append(s);
+				ith_ball_info = ball_info_to_sexpr(ball);
+				if(ith_ball_info != null && ith_ball_info.count() > 1) {
+				 	ball_header.append(ith_ball_info);
 				}
 			}
+			current_tree.append(ball_header);
+			log.setTree(current_tree);
+			System.out.println(log.tree().print());
+
 			int rVal = FileIO.fileChooser.showSaveDialog(this);
 			if(rVal == JFileChooser.APPROVE_OPTION) {
 				File f = FileIO.fileChooser.getSelectedFile();
@@ -183,21 +196,16 @@ public class BlackImageView extends ViewParent implements MouseListener, MouseMo
 		}
 	}
 
-	private SExpr ball_info_to_sexpr(Ellipse2D ball) {
+	//x,y,width,height
+	private SExpr ball_info_to_sexpr(Ellipse2D ball_info) {
 		SExpr s;
-		s = SExpr.list(
-			SExpr.newKeyValue("x",ball.getX()),
-			SExpr.newKeyValue("y",ball.getY()),
-			SExpr.newKeyValue("width",ball.getWidth()),
-			SExpr.newKeyValue("height",ball.getHeight())
+		s = SExpr.newList(
+			SExpr.newKeyValue("x",ball_info.getX()),
+			SExpr.newKeyValue("y",ball_info.getY()),
+			SExpr.newKeyValue("width",ball_info.getWidth()),
+			SExpr.newKeyValue("height",ball_info.getHeight())
 			);
 		return s;
-	}
-
-	private void save_ball_info_to_log() {
-		for(Ellipse2D ball : ball_list) {
-			
-		}
 	}
 
 	public void mouseEntered(MouseEvent e){}

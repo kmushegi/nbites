@@ -147,7 +147,7 @@ int BallDetector::scanX(int startX, int startY, int direction, int stop) {
             newX = i;
         }
     }
-    std::cout << "Returning " << newX << std::endl;
+    //std::cout << "Returning " << newX << std::endl;
     return newX;
 }
 

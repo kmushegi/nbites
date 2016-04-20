@@ -161,12 +161,10 @@ void ImageFrontEnd::run(const YuvLite& src, const Colors* colors, uint8_t* color
   }
 
   if (fast()) {
-    std::cout<<"[INFO] Running Assembly\n";
     _time = man::vision::_acquire_image(src.pixelAddr(), dstBase.pitch(),
                                         dstBase.height(), src.pitch(),
                                         colors, dstImages, colorTable);
   } else {
-    std::cout<<"[INFO] Running Slow\n";
     _time = testAcquire(src.pixelAddr(), dstBase.pitch(), dstBase.height(), 
                         src.pitch(), colors, dstImages, colorTable);
   }

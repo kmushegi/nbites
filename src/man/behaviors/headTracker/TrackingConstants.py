@@ -4,6 +4,9 @@ USE_BOUNCE_TRACKING = False
 
 MAX_PAN_SPEED = 125.0              # deg/sec
 
+#head pan speed that is actually used
+PAN_SPEED = 1.7
+
 TRACKER_FRAMES_ON_TRACK_THRESH = 2
 TRACKER_FRAMES_OFF_REFIND_THRESH = 10
 

@@ -156,7 +156,7 @@ class HeadTrackingHelper(object):
         newYaw = curYaw + safeChangeX
         # ignore newPitch: pitch is fixed
 
-        maxSpeed = 2.0 # TODO: use a constant
+        maxSpeed = constants.PAN_SPEED
 
         # Set motion message fields
         command = self.tracker.brain.interface.headMotionCommand
@@ -185,7 +185,7 @@ class HeadTrackingHelper(object):
 
         #WOW this is ugly
         maxChange = 13.0
-        maxSpeed = 2.0
+        maxSpeed = constants.PAN_SPEED
 
         # Warning- no gain is applied currently!
         safeChangeX = MyMath.clip(changeX, -maxChange, maxChange)
@@ -277,7 +277,7 @@ class HeadTrackingHelper(object):
                 yaw = -180 + yaw
         yaw = yaw - heading
         curYaw  = degrees(self.tracker.brain.interface.joints.head_yaw)
-        maxSpeed = 2.0
+        maxSpeed = constants.PAN_SPEED
 
         # Set motion message fields
         command = self.tracker.brain.interface.headMotionCommand

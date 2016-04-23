@@ -184,6 +184,19 @@ class KickDecider(object):
 
         return (kick for kick in self.possibleKicks).next().next()
 
+    def bigKickLeftLeg(self): #USOPEN2016
+        self.kicks = []
+        self.kicks.append(kicks.BH_LEFT_FORWARD_KICK)
+
+        self.scoreKick = self.minimizeOrbitTime
+
+        self.filters = []
+
+        self.clearPossibleKicks()
+        self.addShotsOnGoal()
+
+        return (kick for kick in self.possibleKicks).next().next()
+
     def bigKickRightLeg(self): #USOPEN2016
         self.kicks = []
         self.kicks.append(kicks.BH_RIGHT_FORWARD_KICK)
@@ -602,6 +615,17 @@ class KickDecider(object):
         if asap:
             return asap
         
+        return self.frontKickCrosses()
+
+    def usOpen2016LeftKickStrategy(self): #USOPEN2016
+        closeGoalShot = self.motionKickOnGoal()
+        if closeGoalShot:
+            return closeGoalShot
+
+        rightKick = self.bigKickLeftLeg()
+        if rightKick:
+            return rightKick
+
         return self.frontKickCrosses()
 
     def usOpen2016RightKickStrategy(self): #USOPEN2016
